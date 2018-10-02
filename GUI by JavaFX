@@ -1,0 +1,685 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sudoku_modified;
+
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+
+/**
+ *
+ * @author Ahmed Osama
+ */
+public class Sudoku_Modified extends Application {
+    //defualt values for storing numbers in mem
+
+    int activeX = -1, activeY = -1, len = 9, mode = 35;                     //default values for lenght mode
+    GridPane gPane;
+    HBox hb2;
+    VBox vbox;
+    BorderPane border;
+    Sudoku sudoku;        //take ana object from class suduko to handel the main code
+    Scene scene;
+
+    @Override
+    public void start(Stage primaryStage) {
+        sudoku = new Sudoku();
+        Button[][] buttons = new Button[9][9];        // put  number on the pane like buttons of size 9x9
+        Button Grid9X9 = new Button("9*9");
+        Grid9X9.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            
+            public void handle(ActionEvent event) {
+                activeX = -1;
+                activeY = -1;
+                gPane = new GridPane();
+                len = 9;
+                int[][] puzzle = sudoku.getNewPuzzle(9, mode);    //handel button to creat board9x9 depend on also
+                boolean c = true, r = true;                       // the mode which user chose
+                for (int i = 0; i < 9; i++) {
+                    if (i % 3 == 0) {
+                        r = !r;
+                    }
+                    for (int j = 0; j < 9; j++) {
+                        if (j == 0) {
+                            c = !r;
+                        }
+                        if (j % 3 == 0) {
+                            c = !c;
+                        }
+                        final int X = i;
+                        final int Y = j;
+                        Button b = new Button();
+                        String s = "";
+                        if (puzzle[j][i] > 0) {
+                            b.setText(String.valueOf(puzzle[j][i]));
+                        } else {
+                            b.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    activeX = X;                                  // pointers to place the empty
+                                    activeY = Y;                                  //withe the answer
+                                }
+                            });
+                            b.setText("-");
+                        }
+                        if (c == false) {
+                            b.setStyle("-fx-background-color: #6495ED;-fx-border-color: orange;");
+                        } else {
+                            b.setStyle("-fx-background-color: #00FFFF;-fx-border-color: orange;");
+                        }
+                        b.setPrefSize(40, 40);
+                        buttons[i][j] = b;
+                        gPane.add(b, i, j);
+                    }
+                }
+                Button b1 = new Button("1");
+                b1.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if (activeX > -1) {
+                            buttons[activeX][activeY].setText("1");
+                        }
+                    }
+                });
+                Button b2 = new Button("2");
+                b2.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if (activeX > -1) {
+                            buttons[activeX][activeY].setText("2");
+                        }
+                    }
+                });
+                Button b3 = new Button("3");
+                b3.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if (activeX > -1) {
+                            buttons[activeX][activeY].setText("3");
+                        }
+                    }
+                });
+                Button b4 = new Button("4");
+                b4.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if (activeX > -1) {
+                            buttons[activeX][activeY].setText("4");
+                        }
+                    }
+                });
+                Button b5 = new Button("5");
+                b5.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if (activeX > -1) {
+                            buttons[activeX][activeY].setText("5");
+                        }
+                    }
+                });
+                Button b6 = new Button("6");
+                b6.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if (activeX > -1) {
+                            buttons[activeX][activeY].setText("6");
+                        }
+                    }
+                });
+                Button b7 = new Button("7");
+                b7.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if (activeX > -1) {
+                            buttons[activeX][activeY].setText("7");
+                        }
+                    }
+                });
+                Button b8 = new Button("8");
+                b8.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if (activeX > -1) {
+                            buttons[activeX][activeY].setText("8");
+                        }
+                    }
+                });
+                Button b9 = new Button("9");
+                b9.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if (activeX > -1) {
+                            buttons[activeX][activeY].setText("9");
+                        }
+                    }
+                });
+                hb2 = new HBox(15);
+                hb2.getChildren().addAll(b1, b2, b3, b4, b5, b6, b7, b8, b9);
+                border = new BorderPane();
+                border.setRight(vbox);
+                border.setBottom(hb2);
+                border.setLeft(gPane);
+                scene = new Scene(border, 500, 450);
+                primaryStage.setScene(scene);
+                primaryStage.show();
+            }
+        });
+        Button Grid6X6 = new Button("6*6");
+        Grid6X6.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                activeX = -1;
+                activeY = -1;
+                gPane = new GridPane();
+                len = 6;
+                int[][] puzzle = sudoku.getNewPuzzle(6, mode);
+                boolean c = true, r = true;                       // the mode which user chose
+                for (int i = 0; i < 6; i++) {
+                    if (i % 3 == 0) {
+                        r = !r;
+                    }
+                    for (int j = 0; j < 6; j++) {
+                        if (j == 0) {
+                            c = !r;
+                        }
+                        if (j % 2 == 0) {
+                            c = !c;
+                        }
+                        final int X = i;
+                        final int Y = j;
+                        Button b = new Button();
+                        String s = "";
+                        if (puzzle[j][i] > 0) {
+                            b.setText(String.valueOf(puzzle[j][i]));
+                        } else {
+                            b.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    activeX = X;
+                                    activeY = Y;
+                                }
+                            });
+                            b.setText("-");
+                        }
+                        if (c == false) {
+                            b.setStyle("-fx-background-color: #6495ED;-fx-border-color: orange;");
+                        } else {
+                            b.setStyle("-fx-background-color: #00FFFF;-fx-border-color: orange;");
+                        }
+                        b.setPrefSize(40, 40);
+                        buttons[i][j] = b;
+                        gPane.add(b, i, j);
+                    }
+                }
+                Button b1 = new Button("1");
+                b1.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if (activeX > -1) {
+                            buttons[activeX][activeY].setText("1");
+                        }
+                    }
+                });
+                Button b2 = new Button("2");
+                b2.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if (activeX > -1) {
+                            buttons[activeX][activeY].setText("2");
+                        }
+                    }
+                });
+                Button b3 = new Button("3");
+                b3.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if (activeX > -1) {
+                            buttons[activeX][activeY].setText("3");
+                        }
+                    }
+                });
+                Button b4 = new Button("4");
+                b4.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if (activeX > -1) {
+                            buttons[activeX][activeY].setText("4");
+                        }
+                    }
+                });
+                Button b5 = new Button("5");
+                b5.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if (activeX > -1) {
+                            buttons[activeX][activeY].setText("5");
+                        }
+                    }
+                });
+                Button b6 = new Button("6");
+                b6.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if (activeX > -1) {
+                            buttons[activeX][activeY].setText("6");
+                        }
+                    }
+                });
+                hb2 = new HBox(15);
+                hb2.getChildren().addAll(b1, b2, b3, b4, b5, b6);
+                border = new BorderPane();
+                border.setRight(vbox);
+                border.setBottom(hb2);
+                border.setLeft(gPane);
+                scene = new Scene(border, 350, 300);
+                primaryStage.setScene(scene);
+                primaryStage.show();
+            }
+        });
+        Button submit = new Button("Submit");
+        submit.setOnAction(new EventHandler<ActionEvent>() {      //this button for check my answer 
+            @Override
+            public void handle(ActionEvent event) {
+                boolean f = false;
+                int[][] sol = new int[len][len];
+                for (int i = 0; i < len; i++) {
+                    for (int j = 0; j < len; j++) {
+                        char c = buttons[i][j].getText().charAt(0);     //change the number that user place it
+                        if (c == '-') {                                  //from char to number
+                            f = true;
+                            sol[j][i] = 0;
+                        } else {
+                            sol[j][i] = c - '0';              // asci code ya3ni ana a5tart rakm 2 el size 2 ba3mlo
+                        }                                  // ba3mlo - 0 then lace it
+                    }
+                }
+                Alert alert;
+                if (f == true) {
+                    alert = new Alert(AlertType.ERROR, "Complete Your Answer !");
+                    alert.showAndWait();
+                } else {
+                    boolean f2 = sudoku.check(sol);      //call function of checking the answer
+                    if (f2 == false) {
+                        alert = new Alert(AlertType.ERROR, "Wrong");
+                        alert.showAndWait();
+                    } else {
+                        alert = new Alert(AlertType.INFORMATION, "CORRECT!");
+                        alert.showAndWait();
+                    }
+                }
+            }
+        });
+        Button Beggner = new Button("Beginner");           // place the same code for button of 9x9 or 6x6
+        Beggner.setOnAction(new EventHandler<ActionEvent>() {    // so when the user pick up board 9x9 and for 
+            @Override                                               //begginer automate change the board by mode for
+            public void handle(ActionEvent event) {                 // grid 9x9
+                activeX = -1;
+                activeY = -1;
+                int il, jl;
+                if(len == 6) {
+                    il = 3;
+                    jl = 2;
+                } else {
+                    il = 3;
+                    jl = 3;
+                }
+                gPane = new GridPane();
+                mode = 15;
+                int[][] puzzle = sudoku.getNewPuzzle(len, mode);
+                boolean c = true, r = true;                       // the mode which user chose
+                for (int i = 0; i < len; i++) {
+                    if (i % il == 0) {
+                        r = !r;
+                    }
+                    for (int j = 0; j < len; j++) {
+                        if (j == 0) {
+                            c = !r;
+                        }
+                        if (j % jl == 0) {
+                            c = !c;
+                        }
+                        final int X = i;
+                        final int Y = j;
+                        Button b = new Button();
+                        String s = "";
+                        if (puzzle[j][i] > 0) {
+                            b.setText(String.valueOf(puzzle[j][i]));
+                        } else {
+                            b.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    activeX = X;
+                                    activeY = Y;
+                                }
+                            });
+                            b.setText("-");
+                        }
+                        if (c == false) {
+                            b.setStyle("-fx-background-color: #6495ED;-fx-border-color: orange;");
+                        } else {
+                            b.setStyle("-fx-background-color: #00FFFF;-fx-border-color: orange;");
+                        }
+                        b.setPrefSize(40, 40);
+                        buttons[i][j] = b;
+                        gPane.add(b, i, j);
+                    }
+                }
+                border = new BorderPane();
+                border.setRight(vbox);
+                border.setBottom(hb2);
+                border.setLeft(gPane);
+                int sz1, sz2;
+                if(len == 9) {
+                    sz1 = 500;
+                    sz2 = 450;
+                } else {
+                    sz1 = 350;
+                    sz2 = 300;
+                }
+                scene = new Scene(border, sz1, sz2);
+                primaryStage.setScene(scene);
+                primaryStage.show();
+            }
+        });
+        Button Expart = new Button("Expert");
+        Expart.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                activeX = -1;
+                activeY = -1;
+                int il, jl;
+                if(len == 6) {
+                    il = 3;
+                    jl = 2;
+                } else {
+                    il = 3;
+                    jl = 3;
+                }
+                gPane = new GridPane();
+                mode = 75;
+                int[][] puzzle = sudoku.getNewPuzzle(len, mode);
+                boolean c = true, r = true;                       // the mode which user chose
+                for (int i = 0; i < len; i++) {
+                    if (i % il == 0) {
+                        r = !r;
+                    }
+                    for (int j = 0; j < len; j++) {
+                        if (j == 0) {
+                            c = !r;
+                        }
+                        if (j % jl == 0) {
+                            c = !c;
+                        }
+                        final int X = i;
+                        final int Y = j;
+                        Button b = new Button();
+                        String s = "";
+                        if (puzzle[j][i] > 0) {
+                            b.setText(String.valueOf(puzzle[j][i]));
+                        } else {
+                            b.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    activeX = X;
+                                    activeY = Y;
+                                }
+                            });
+                            b.setText("-");
+                        }
+                        if (c == false) {
+                            b.setStyle("-fx-background-color: #6495ED;-fx-border-color: orange;");
+                        } else {
+                            b.setStyle("-fx-background-color: #00FFFF;-fx-border-color: orange;");
+                        }
+                        b.setPrefSize(40, 40);
+                        buttons[i][j] = b;
+                        gPane.add(b, i, j);
+                    }
+                }
+                border = new BorderPane();
+                border.setRight(vbox);
+                border.setBottom(hb2);
+                border.setLeft(gPane);
+                int sz1, sz2;
+                if(len == 9) {
+                    sz1 = 500;
+                    sz2 = 450;
+                } else {
+                    sz1 = 350;
+                    sz2 = 300;
+                }
+                scene = new Scene(border, sz1, sz2);
+                primaryStage.setScene(scene);
+                primaryStage.show();
+            }
+        });
+        Button medium = new Button("Medium");
+        medium.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                activeX = -1;
+                activeY = -1;
+                int il, jl;
+                if(len == 6) {
+                    il = 3;
+                    jl = 2;
+                } else {
+                    il = 3;
+                    jl = 3;
+                }
+                gPane = new GridPane();
+                mode = 35;
+                int[][] puzzle = sudoku.getNewPuzzle(len, mode);
+                boolean c = true, r = true;                       // the mode which user chose
+                for (int i = 0; i < len; i++) {
+                    if (i % il == 0) {
+                        r = !r;
+                    }
+                    for (int j = 0; j < len; j++) {
+                        if (j == 0) {
+                            c = !r;
+                        }
+                        if (j % jl == 0) {
+                            c = !c;
+                        }
+                        final int X = i;
+                        final int Y = j;
+                        Button b = new Button();
+                        String s = "";
+                        if (puzzle[j][i] > 0) {
+                            b.setText(String.valueOf(puzzle[j][i]));
+                        } else {
+                            b.setOnAction(new EventHandler<ActionEvent>() {
+                                @Override
+                                public void handle(ActionEvent event) {
+                                    activeX = X;
+                                    activeY = Y;
+                                }
+                            });
+                            b.setText("-");
+                        }
+                        if (c == false) {
+                            b.setStyle("-fx-background-color: #6495ED;-fx-border-color: orange;");
+                        } else {
+                            b.setStyle("-fx-background-color: #00FFFF;-fx-border-color: orange;");
+                        }
+                        b.setPrefSize(40, 40);
+                        buttons[i][j] = b;
+                        gPane.add(b, i, j);
+                    }
+                }
+                border = new BorderPane();
+                border.setRight(vbox);
+                border.setBottom(hb2);
+                border.setLeft(gPane);
+                int sz1, sz2;
+                if(len == 9) {
+                    sz1 = 500;
+                    sz2 = 450;
+                } else {
+                    sz1 = 350;
+                    sz2 = 300;
+                }
+                scene = new Scene(border, sz1, sz2);
+                primaryStage.setScene(scene);
+                primaryStage.show();
+            }
+        });
+        Button b1 = new Button("1");
+        b1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (activeX > -1) {
+                    buttons[activeX][activeY].setText("1");
+                }
+            }
+        });
+        Button b2 = new Button("2");
+        b2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (activeX > -1) {
+                    buttons[activeX][activeY].setText("2");
+                }
+            }
+        });
+        Button b3 = new Button("3");
+        b3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (activeX > -1) {
+                    buttons[activeX][activeY].setText("3");
+                }
+            }
+        });
+        Button b4 = new Button("4");
+        b4.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (activeX > -1) {
+                    buttons[activeX][activeY].setText("4");
+                }
+            }
+        });
+        Button b5 = new Button("5");
+        b5.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (activeX > -1) {
+                    buttons[activeX][activeY].setText("5");
+                }
+            }
+        });
+        Button b6 = new Button("6");
+        b6.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (activeX > -1) {
+                    buttons[activeX][activeY].setText("6");
+                }
+            }
+        });
+        Button b7 = new Button("7");
+        b7.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (activeX > -1) {
+                    buttons[activeX][activeY].setText("7");
+                }
+            }
+        });
+        Button b8 = new Button("8");
+        b8.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (activeX > -1) {
+                    buttons[activeX][activeY].setText("8");
+                }
+            }
+        });
+        Button b9 = new Button("9");
+        b9.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (activeX > -1) {
+                    buttons[activeX][activeY].setText("9");
+                }
+            }
+        });
+        hb2 = new HBox(12);
+        vbox = new VBox(15);
+        border = new BorderPane();
+        vbox.getChildren().addAll(Grid9X9, Grid6X6, Beggner, medium, Expart,submit);
+        border.setRight(vbox);
+        hb2.getChildren().addAll(b1, b2, b3, b4, b5, b6, b7, b8, b9);
+        border.setBottom(hb2);
+        gPane = new GridPane();
+        int[][] puzzle = sudoku.getNewPuzzle(9, 35);
+        boolean c = true, r = true;
+        for (int i = 0; i < 9; i++) {
+            if(i%3 == 0) {
+                r = !r;
+            }
+            for (int j = 0; j < 9; j++) {
+                if(j == 0)
+                    c = !r;
+                if(j%3 == 0)
+                    c = !c;
+                final int X = i;
+                final int Y = j;
+                Button b = new Button();
+                String s = "";
+                if (puzzle[j][i] > 0) {
+                    b.setText(String.valueOf(puzzle[j][i]));
+                    b.setUnderline(true);
+                } else {
+                    b.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            activeX = X;
+                            activeY = Y;
+                        }
+                    });
+                    b.setText("-");
+                }
+                if(c == false)
+                    b.setStyle("-fx-background-color: #6495ED;-fx-border-color: orange;");
+                else
+                    b.setStyle("-fx-background-color: #00FFFF;-fx-border-color: orange;");
+                b.setPrefSize(40, 40);
+                buttons[i][j] = b;
+                gPane.add(b, i, j);
+            }
+            
+        }
+        border.setLeft(gPane);
+        scene = new Scene(border,500,450);
+        primaryStage.setTitle("Suduko");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+        
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+}
